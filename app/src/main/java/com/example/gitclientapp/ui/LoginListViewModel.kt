@@ -5,13 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.gitclientapp.Contract
 import com.example.gitclientapp.data.Repository
+import com.example.gitclientapp.data.RetrofitRepository
 import com.example.gitclientapp.domain.UserProfile
 
 class LoginListViewModel : ViewModel() {
     private var repository: Contract.RepositoryInterface = Repository()
+   // private var webRepository: Contract.RepositoryInterface = RetrofitRepository()
     private val users: List<UserProfile> = loadData()
 
     fun getUsers(): List<UserProfile> = users
 
     fun loadData() = repository.provideData()
+    //fun loadDataFromWeb() = webRepository.provideData()
+
 }

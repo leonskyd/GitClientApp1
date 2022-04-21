@@ -1,22 +1,20 @@
 package com.example.gitclientapp.ui
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
-import android.widget.TextView
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gitclientapp.Contract
-import com.example.gitclientapp.R
+import com.example.gitclientapp.databinding.LoginListItemBinding
 import com.example.gitclientapp.domain.UserProfile
 
 class LoginListAdapter(
-    private var users: List<UserProfile>,
-    private var onItemClicklistener: Contract.OnItemClickListener
+    private var users: List<UserProfile>
 ) : RecyclerView.Adapter<LoginListAdapter.LoginListViewHolder>() {
+    private lateinit var _listener: Contract.OnItemClickListener
 
-
+    fun setOnItemClickListener(listener: Contract.OnItemClickListener) {
+        _listener = listener
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -24,7 +22,7 @@ class LoginListAdapter(
     ): LoginListAdapter.LoginListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return LoginListViewHolder(
-            inflater.inflate(R.layout.login_list_item, parent, false) as View
+            LoginListItemBinding.inflate(inflater), _listener
         )
     }
 
@@ -37,17 +35,18 @@ class LoginListAdapter(
 
     }
 
-    inner class LoginListViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(user:UserProfile) {
-            val loginItemView = itemView.findViewById<TextView>(R.id.login_item_text_view)
-            val locationItemView = itemView.findViewById<TextView>(R.id.location_item_text_view)
-            loginItemView.text = user.login
-            locationItemView.text = user.location
-            loginItemView.setOnClickListener {
-                onItemClicklistener.onItemClick()
+    inner class LoginListViewHolder(
+        private val binding: LoginListItemBinding,
+        listener: Contract.OnItemClickListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.loginItemTextView.setOnClickListener {
+                listener.onItemClick(adapterPosition)
             }
-
+        }
+        fun bind(user: UserProfile) {
+            binding.loginItemTextView.text = user.login
+            binding.locationItemTextView.text = user.location
         }
     }
-
 }

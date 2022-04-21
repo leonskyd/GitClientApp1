@@ -33,22 +33,26 @@ class LoginListFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val userList = viewModel.getUsers()
-        val adapter = LoginListAdapter(userList, object: Contract.OnItemClickListener {
-            override fun onItemClick() {
-                openUserProfile()
+        val adapter = LoginListAdapter(userList)
+        binding.mainRecyclerView.adapter = adapter
+        adapter.setOnItemClickListener(object : Contract.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                val login = userList[position].login
+                OpenUserFragment(login)
             }
         })
-        binding.mainRecyclerView.adapter = adapter
-
     }
 
-    private fun openUserProfile() {
+    private fun OpenUserFragment(login: String?) {
+        val bundle = Bundle()
+        val fragment = UserFragment()
+        bundle.putString("KEY_STRING", login)
+        fragment.arguments = bundle
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.list_fragment_container, UserFragment())
-        transaction?.addToBackStack(null)
+        transaction?.replace(R.id.container, fragment)
         transaction?.commit()
     }
 
@@ -56,5 +60,4 @@ class LoginListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
