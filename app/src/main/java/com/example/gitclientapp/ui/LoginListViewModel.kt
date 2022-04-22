@@ -10,12 +10,12 @@ import com.example.gitclientapp.domain.UserProfile
 
 class LoginListViewModel : ViewModel() {
     private var repository: Contract.RepositoryInterface = Repository()
-   // private var webRepository: Contract.RepositoryInterface = RetrofitRepository()
+    private var webRepository: Contract.RetrofitRepositoryInterface = RetrofitRepository()
     private val users: List<UserProfile> = loadData()
 
     fun getUsers(): List<UserProfile> = users
 
     fun loadData() = repository.provideData()
-    //fun loadDataFromWeb() = webRepository.provideData()
 
-}
+
+    }
