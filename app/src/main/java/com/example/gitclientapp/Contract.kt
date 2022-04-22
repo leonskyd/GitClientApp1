@@ -1,5 +1,6 @@
 package com.example.gitclientapp
 
+import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
 
 class Contract {
@@ -7,8 +8,11 @@ class Contract {
     interface RepositoryInterface {
         fun provideData(): MutableList<UserProfile>
     }
+    interface RetrofitRepositoryInterface {
+        fun provideDataFromWeb(username:String)
+    }
     //VIEW
     interface OnItemClickListener {
-        fun onItemClick()
+        fun onItemClick(position: Int)
     }
 }
