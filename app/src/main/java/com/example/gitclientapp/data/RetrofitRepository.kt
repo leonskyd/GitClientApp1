@@ -31,9 +31,12 @@ class RetrofitRepository: Contract.RetrofitRepositoryInterface{
                 if (response.isSuccessful) {
                     liveData.postValue(response.body())
                 }
+                else {
+                    Log.d("ERROR", "not Success")
+                }
             }
             override fun onFailure(call: Call<List<GitRepoEntity>>, t: Throwable) {
-                Log.e("Repositories not shown !", t.message.toString())
+                Log.d("ERROR", "Failed")
             }
         })
     }
@@ -49,6 +52,8 @@ class RetrofitRepository: Contract.RetrofitRepositoryInterface{
             ) {
                 if (response.isSuccessful) {
                     liveData.postValue(response.body())
+                } else {
+                    liveData.postValue(UserProfile("1","2","Leon","4"))
                 }
             }
             override fun onFailure(call: Call<UserProfile>, t: Throwable) {

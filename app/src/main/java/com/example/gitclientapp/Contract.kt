@@ -24,4 +24,8 @@ class Contract  {
     interface OnItemClickListener {
         fun onItemClick(position: Int)
     }
+    interface Controller {
+        fun openDetailScreen(login: String)
+        fun backToList()
+    }
 }

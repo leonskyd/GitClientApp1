@@ -14,6 +14,4 @@ interface GithubApi {
     @GET("users/{user}")
     fun userDetails(@Path("user")user:String?)
     : Call<UserProfile>
-
-
 }

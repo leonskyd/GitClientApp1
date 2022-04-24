@@ -9,22 +9,29 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.gitclientapp.Contract
 import com.example.gitclientapp.R
 import com.example.gitclientapp.databinding.FragmentUserBinding
 import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
-import kotlinx.coroutines.NonDisposableHandle.parent
-
 
 class UserFragment : Fragment() {
 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
 
+    companion object {
+        private const val KEY_STRING = "KEY_STRING"
+        fun newInstance(login: String) = UserFragment().apply {
+            arguments = Bundle()
+            arguments?.putString(KEY_STRING, login)
+        }
+    }
 
     private val viewModel: UserViewModel by lazy {
         ViewModelProvider(this).get(UserViewModel::class.java)
     }
+    private val controller by lazy { activity as Contract.Controller }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +40,7 @@ class UserFragment : Fragment() {
         _binding = FragmentUserBinding.inflate(
             inflater, container, false
         )
-        val args = this.arguments
-        val inputData = args?.get("KEY_STRING")
+        val inputData = this.arguments?.get("KEY_STRING")
         binding.loginTextView.text = inputData.toString()
         return binding.root
         viewModel.getLiveDataObserver()
@@ -47,9 +53,7 @@ class UserFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.backButton.setOnClickListener {
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.container, LoginListFragment())
-            transaction?.commit()
+            controller.backToList()
         }
 
         val username = binding.loginTextView.text.toString()
@@ -62,7 +66,6 @@ class UserFragment : Fragment() {
         })
 
     }
-
     private fun showDetails(details: UserProfile) {
         binding.nameTextView.text = details.name
         binding.locationTextView.text = details.location
