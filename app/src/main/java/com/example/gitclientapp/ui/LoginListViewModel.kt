@@ -16,5 +16,4 @@ class LoginListViewModel : ViewModel() {
 
     fun loadData() = repository.provideData()
 
-
     }

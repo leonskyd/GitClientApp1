@@ -14,6 +14,7 @@ import com.example.gitclientapp.app
 import com.example.gitclientapp.databinding.FragmentUserBinding
 import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
+import io.reactivex.rxjava3.core.Observable
 
 class UserFragment : Fragment() {
 
@@ -72,9 +73,17 @@ class UserFragment : Fragment() {
     }
 
     private fun showDetails(details: UserProfile) {
-        binding.nameTextView.text = details.name
-        binding.locationTextView.text = details.location
-        Glide.with(this).load(details.avatar_url).into(binding.avatarImageView)
+        val userName = details.name?: "Uknown"
+        val userLocation = details.location?: "Uknown"
+        val userAvatar = details.avatar_url
+        Observable.just(userName, userLocation,userAvatar)
+            .map{
+                Glide.with(this)
+                    .load(userAvatar)
+                    .into(binding.avatarImageView)
+            }
+            .subscribe{binding.nameTextView.text = userName
+                    binding.locationTextView.text = userLocation}
     }
 
     private fun showReposText(reposList: List<GitRepoEntity>) {

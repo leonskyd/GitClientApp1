@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.gitclientapp.Contract
 import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
+import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -42,24 +43,23 @@ class RetrofitRepository: Contract.RetrofitRepositoryInterface{
     }
 
     override fun provideDetailsFromWeb(
-        username: String,
-        liveData: MutableLiveData<UserProfile>
-    ) {
+        username: String
+    ): Single<UserProfile> {
+        return Single.create { emitter ->
         api.userDetails(username).enqueue(object:Callback<UserProfile>{
             override fun onResponse(
                 call: Call<UserProfile>,
                 response: Response<UserProfile>
             ) {
                 if (response.isSuccessful) {
-                    liveData.postValue(response.body())
-                } else {
-                    liveData.postValue(UserProfile("1","2","Leon","4"))
+                    emitter.onSuccess(response.body())
                 }
             }
             override fun onFailure(call: Call<UserProfile>, t: Throwable) {
-                Log.e("Details not provided !", t.message.toString())
+                emitter.onError(t)
             }
-
         })
+    }
+
     }
 }

@@ -3,6 +3,7 @@ package com.example.gitclientapp
 import androidx.lifecycle.MutableLiveData
 import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
+import io.reactivex.rxjava3.core.Single
 
 class Contract  {
     // DATA
@@ -16,9 +17,8 @@ class Contract  {
             liveData: MutableLiveData<List<GitRepoEntity>>
         )
         fun provideDetailsFromWeb(
-            username:String,
-            liveData: MutableLiveData<UserProfile>
-        )
+            username:String
+        ) : Single<UserProfile>
     }
     //VIEW
     interface OnItemClickListener {
