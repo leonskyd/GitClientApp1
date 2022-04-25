@@ -1,5 +1,6 @@
 package com.example.gitclientapp.ui
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import com.example.gitclientapp.Contract
 import com.example.gitclientapp.R
 import com.example.gitclientapp.databinding.LoginListFragmentBinding
+import java.lang.IllegalStateException
 
 class LoginListFragment : Fragment() {
 
@@ -33,6 +35,14 @@ class LoginListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(activity !is Contract.Controller) {
+            throw IllegalStateException("Activity shall extend Controller")
+        }
+    }
+    private val controller by lazy { activity as Contract.Controller }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val userList = viewModel.getUsers()
@@ -41,19 +51,11 @@ class LoginListFragment : Fragment() {
         adapter.setOnItemClickListener(object : Contract.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val login = userList[position].login
-                OpenUserFragment(login)
+                if (login != null) {
+                    controller.openDetailScreen(login)
+                }
             }
         })
-    }
-
-    private fun OpenUserFragment(login: String?) {
-        val bundle = Bundle()
-        val fragment = UserFragment()
-        bundle.putString("KEY_STRING", login)
-        fragment.arguments = bundle
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.container, fragment)
-        transaction?.commit()
     }
 
     override fun onDestroyView() {

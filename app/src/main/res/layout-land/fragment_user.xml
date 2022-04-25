@@ -38,40 +38,41 @@
         android:hint="location" />
 
     <ImageView
+
+
+
+
+
+
         android:id="@+id/avatar_image_view"
         android:layout_marginTop="12dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:foregroundTint="@color/teal_700"
-        app:layout_constraintStart_toEndOf="@+id/name_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location_text_view"
         android:textSize="20sp"
         android:hint="location" />
 
     <TextView
         android:id="@+id/repo_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_width="400dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="12dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location_text_view"
         android:textSize="20sp"
         android:text="repositories are here !"
         />
 
     <Button
         android:id="@+id/back_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/repo_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/avatar_image_view"
         android:text="back to business"/>
-
+    >
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
