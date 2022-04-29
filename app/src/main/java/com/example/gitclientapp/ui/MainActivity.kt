@@ -1,9 +1,12 @@
 package com.example.gitclientapp.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.gitclientapp.Contract
 import com.example.gitclientapp.R
+import com.example.gitclientapp.ui.UserFragment.UserFragment
+import com.example.gitclientapp.ui.listFragment.LoginListFragment
+
 
 class MainActivity : AppCompatActivity(), Contract.Controller {
     override fun onCreate(savedInstanceState: Bundle?) {
