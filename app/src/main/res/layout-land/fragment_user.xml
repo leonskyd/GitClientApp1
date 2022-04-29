@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".ui.UserFragment">
+    tools:context=".ui.UserFragment.UserFragment">
 
     <TextView
         android:id="@+id/login_text_view"
@@ -38,12 +38,6 @@
         android:hint="location" />
 
     <ImageView
-
-
-
-
-
-
         android:id="@+id/avatar_image_view"
         android:layout_marginTop="12dp"
         android:layout_width="100dp"
@@ -64,15 +58,5 @@
         android:textSize="20sp"
         android:text="repositories are here !"
         />
-
-    <Button
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatar_image_view"
-        android:text="back to business"/>
-    >
 
 </androidx.constraintlayout.widget.ConstraintLayout>

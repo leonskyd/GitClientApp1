@@ -1,32 +1,31 @@
-package com.example.gitclientapp.ui
+package com.example.gitclientapp.ui.listFragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gitclientapp.Contract
 import com.example.gitclientapp.databinding.LoginListItemBinding
 import com.example.gitclientapp.domain.UserProfile
 
 class LoginListAdapter(
     private var users: List<UserProfile>
 ) : RecyclerView.Adapter<LoginListAdapter.LoginListViewHolder>() {
-    private lateinit var _listener: Contract.OnItemClickListener
+    private lateinit var _listener: OnItemClickListener
 
-    fun setOnItemClickListener(listener: Contract.OnItemClickListener) {
+    fun setOnItemClickListener(listener: OnItemClickListener) {
         _listener = listener
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): LoginListAdapter.LoginListViewHolder {
+    ): LoginListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return LoginListViewHolder(
             LoginListItemBinding.inflate(inflater), _listener
         )
     }
 
-    override fun onBindViewHolder(holder: LoginListAdapter.LoginListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LoginListViewHolder, position: Int) {
         holder.bind(users[position])
     }
 
@@ -37,7 +36,7 @@ class LoginListAdapter(
 
     inner class LoginListViewHolder(
         private val binding: LoginListItemBinding,
-        listener: Contract.OnItemClickListener
+        listener: OnItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.loginItemTextView.setOnClickListener {
@@ -49,4 +48,7 @@ class LoginListAdapter(
             binding.locationItemTextView.text = user.location
         }
     }
+}
+interface OnItemClickListener {
+    fun onItemClick(position: Int)
 }

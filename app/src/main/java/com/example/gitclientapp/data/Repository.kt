@@ -1,9 +1,8 @@
 package com.example.gitclientapp.data
 
-import com.example.gitclientapp.Contract
 import com.example.gitclientapp.domain.UserProfile
 
-class Repository: Contract.RepositoryInterface {
+class Repository: RepositoryInterface {
 
     override fun provideData(): MutableList<UserProfile> {
         return arrayListOf(
@@ -17,4 +16,7 @@ class Repository: Contract.RepositoryInterface {
             UserProfile("berliner"),
             )
     }
+}
+interface RepositoryInterface {
+    fun provideData(): MutableList<UserProfile>
 }

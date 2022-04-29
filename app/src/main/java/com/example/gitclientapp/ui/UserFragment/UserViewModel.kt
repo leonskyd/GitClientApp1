@@ -1,16 +1,15 @@
-package com.example.gitclientapp.ui
+package com.example.gitclientapp.ui.UserFragment
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gitclientapp.Contract
-import com.example.gitclientapp.data.RetrofitRepository
+import com.example.gitclientapp.data.RetrofitRepositoryInterface
 import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
 class UserViewModel(
-    private var webRepository: Contract.RetrofitRepositoryInterface
+    private var webRepository: RetrofitRepositoryInterface
     ) : ViewModel() {
     lateinit var liveDataList: MutableLiveData<List<GitRepoEntity>>
     lateinit var detailsLiveDataList: MutableLiveData<UserProfile>
@@ -39,5 +38,5 @@ class UserViewModel(
         super.onCleared()
         compositeDisposable.clear()
     }
-
 }
+

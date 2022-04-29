@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:id="@+id/list_fragment_container"
-    tools:context=".ui.LoginListFragment">
+    tools:context=".ui.listFragment.LoginListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_recycler_view"

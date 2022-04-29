@@ -1,17 +1,12 @@
-package com.example.gitclientapp
+package com.example.gitclientapp.data
 
 import androidx.lifecycle.MutableLiveData
 import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
 import io.reactivex.rxjava3.core.Single
 
-class Contract  {
-    // DATA
-    interface RepositoryInterface {
-        fun provideData(): MutableList<UserProfile>
-    }
-    //Retrofit
-    interface RetrofitRepositoryInterface {
+interface RetrofitRepositoryInterface {
+
         fun provideReposFromWeb(
             username:String,
             liveData: MutableLiveData<List<GitRepoEntity>>
@@ -20,12 +15,3 @@ class Contract  {
             username:String
         ) : Single<UserProfile>
     }
-    //VIEW
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
-    interface Controller {
-        fun openDetailScreen(login: String)
-        fun backToList()
-    }
-}

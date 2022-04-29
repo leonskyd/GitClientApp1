@@ -1,4 +1,4 @@
-package com.example.gitclientapp.ui
+package com.example.gitclientapp.ui.UserFragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -6,25 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.gitclientapp.Contract
-import com.example.gitclientapp.app
 import com.example.gitclientapp.databinding.FragmentUserBinding
 import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
 import io.reactivex.rxjava3.core.Observable
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class UserFragment : Fragment() {
+class UserFragment : Fragment(){
 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: UserViewModel by lazy {
-        val factory = UserViewModelFactory(app.webRepository)
-        ViewModelProvider(this, factory).get(UserViewModel::class.java)
-    }
+    private val viewModel: UserViewModel by viewModel()
 
     companion object {
         private const val KEY_STRING = "KEY_STRING"
@@ -34,7 +30,7 @@ class UserFragment : Fragment() {
         }
     }
 
-    private val controller by lazy { activity as Contract.Controller }
+    private val controller by lazy { activity as Controller }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,20 +41,26 @@ class UserFragment : Fragment() {
         )
         val inputData = this.arguments?.get("KEY_STRING")
         binding.loginTextView.text = inputData.toString()
+        initBackPressed()
         return binding.root
 
         viewModel.getLiveDataObserver()
         viewModel.getdetailsLiveDataObserver()
-
     }
+
+    private fun initBackPressed() {
+        val callback = object:OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                controller.backToList()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
+    }
+
 
     @SuppressLint("FragmentLiveDataObserve")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.backButton.setOnClickListener {
-            controller.backToList()
-        }
 
         val username = binding.loginTextView.text.toString()
         viewModel.let {
@@ -99,4 +101,8 @@ class UserFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+}
+interface Controller {
+    fun openDetailScreen(login: String)
+    fun backToList()
 }
