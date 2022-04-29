@@ -2,25 +2,16 @@ package com.example.gitclientapp.data
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.gitclientapp.Contract
 import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Callback
 import retrofit2.Response
 
-const val BASE_URL = "https://api.github.com/"
-
-class RetrofitRepository: Contract.RetrofitRepositoryInterface{
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val api: GithubApi = retrofit.create(GithubApi::class.java)
+class RetrofitRepository(
+    private val api: GithubApi
+): RetrofitRepositoryInterface{
 
     override fun provideReposFromWeb(
         username:String, liveData: MutableLiveData<List<GitRepoEntity>>) {

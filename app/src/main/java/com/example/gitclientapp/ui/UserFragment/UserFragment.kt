@@ -8,24 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.gitclientapp.Contract
-import com.example.gitclientapp.app
 import com.example.gitclientapp.databinding.FragmentUserBinding
 import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
 import io.reactivex.rxjava3.core.Observable
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserFragment : Fragment(){
 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: UserViewModel by lazy {
-        val factory = UserViewModelFactory(app.webRepository)
-        ViewModelProvider(this, factory).get(UserViewModel::class.java)
-    }
+    private val viewModel: UserViewModel by viewModel()
 
     companion object {
         private const val KEY_STRING = "KEY_STRING"
@@ -35,7 +30,7 @@ class UserFragment : Fragment(){
         }
     }
 
-    private val controller by lazy { activity as Contract.Controller }
+    private val controller by lazy { activity as Controller }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -106,5 +101,8 @@ class UserFragment : Fragment(){
         super.onDestroyView()
         _binding = null
     }
-
+}
+interface Controller {
+    fun openDetailScreen(login: String)
+    fun backToList()
 }

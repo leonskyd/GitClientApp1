@@ -2,13 +2,13 @@ package com.example.gitclientapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.gitclientapp.Contract
 import com.example.gitclientapp.R
+import com.example.gitclientapp.ui.UserFragment.Controller
 import com.example.gitclientapp.ui.UserFragment.UserFragment
 import com.example.gitclientapp.ui.listFragment.LoginListFragment
 
 
-class MainActivity : AppCompatActivity(), Contract.Controller {
+class MainActivity : AppCompatActivity(), Controller {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
