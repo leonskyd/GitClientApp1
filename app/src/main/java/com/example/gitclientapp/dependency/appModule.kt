@@ -4,6 +4,7 @@ import com.example.gitclientapp.data.GithubApi
 import com.example.gitclientapp.data.RetrofitRepository
 import com.example.gitclientapp.data.RetrofitRepositoryInterface
 import com.example.gitclientapp.ui.UserFragment.UserViewModel
+import com.example.gitclientapp.ui.listFragment.LoginListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -24,4 +25,5 @@ val appModule = module {
     factory<Converter.Factory>{ GsonConverterFactory.create()}
     //ViewModel
     viewModel {UserViewModel(get())}
+    viewModel { LoginListViewModel(get()) }
 }
