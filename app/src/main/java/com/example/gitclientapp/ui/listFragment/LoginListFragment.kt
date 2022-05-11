@@ -21,7 +21,6 @@ class LoginListFragment : Fragment() {
 
     private var _binding: LoginListFragmentBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: LoginListViewModel by viewModel()
 
     override fun onCreateView(
@@ -44,11 +43,23 @@ class LoginListFragment : Fragment() {
     private val controller by lazy { activity as Controller }
 
     @SuppressLint("FragmentLiveDataObserve")
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if(savedInstanceState==null) {
+            val userList = viewModel.getUsers()
+            initAdapter(userList)
+        } else {
+            val sinceNumber = savedInstanceState.getInt("sinceNumber",10)
+            viewModel.getUsersListFromApi(sinceNumber)
+            viewModel.usersListLiveData.observe(this,{ webUserList ->
+                initAdapter(webUserList)
+            })
+        }
+    }
+
+    @SuppressLint("FragmentLiveDataObserve")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val userList = viewModel.getUsers()
-        initAdapter(userList)
-
 
         binding.sinceButton.setOnClickListener {
             val sinceNumber = binding.sinceEditText.text.toString().toInt()
@@ -75,6 +86,12 @@ class LoginListFragment : Fragment() {
                 }
             }
         })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val sinceNumber = binding.sinceEditText.text.toString().toInt()
+        outState.putInt("sinceNumber", sinceNumber)
     }
 
     override fun onDestroyView() {
