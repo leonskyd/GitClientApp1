@@ -3,21 +3,24 @@ package com.example.gitclientapp
 import android.app.Application
 import android.content.Context
 import androidx.fragment.app.Fragment
-import com.example.gitclientapp.data.RetrofitRepository
-import com.example.gitclientapp.dependency.appModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
+import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
+import com.example.gitclientapp.dependency.AppDependenciesComponent
+import com.example.gitclientapp.dependency.DaggerAppDependenciesComponent
+import com.example.gitclientapp.dependency.DaggerModule
+
 
 class App: Application() {
-
+   companion object  {
+        lateinit var instance: App
+    }
+    lateinit var appDependenciesComponent: AppDependenciesComponent
     override fun onCreate() {
         super.onCreate()
-        startKoin {
-            androidLogger()
-            androidContext(this@App)
-            modules(appModule)
-        }
+        instance = this
+            appDependenciesComponent = DaggerAppDependenciesComponent
+            .builder()
+            .daggerModule(DaggerModule(this))
+            .build()
     }
 }
 

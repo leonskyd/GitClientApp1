@@ -7,21 +7,34 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import com.example.gitclientapp.App
+import com.example.gitclientapp.data.RetrofitRepositoryInterface
 import com.example.gitclientapp.databinding.LoginListFragmentBinding
 import com.example.gitclientapp.domain.UserProfile
 import com.example.gitclientapp.ui.UserFragment.Controller
+import com.example.gitclientapp.ui.UserFragment.ViewModelFactory
 import java.lang.IllegalStateException
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
+
 
 class LoginListFragment : Fragment() {
 
     companion object {
-        fun newInstance() = LoginListFragment()
-    }
+        fun newInstance() = LoginListFragment().apply{
+            App.instance.appDependenciesComponent.inject(this)
+        } }
+
 
     private var _binding: LoginListFragmentBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: LoginListViewModel by viewModel()
+    @Inject
+    lateinit var webRepository: RetrofitRepositoryInterface
+    private val viewModel: LoginListViewModel by lazy {
+        val factory = ViewModelFactory(webRepository)
+        ViewModelProvider(this, factory).get(LoginListViewModel::class.java)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +69,8 @@ class LoginListFragment : Fragment() {
             })
         }
     }
+
+
 
     @SuppressLint("FragmentLiveDataObserve")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

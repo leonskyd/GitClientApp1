@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.example.gitclientapp.data.Repository
 import com.example.gitclientapp.data.RepositoryInterface
 import com.example.gitclientapp.data.RetrofitRepositoryInterface
-import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
 
 class LoginListViewModel (
