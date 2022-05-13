@@ -35,11 +35,16 @@ class UserFragment : Fragment(){
         fun newInstance(login: String) = UserFragment().apply {
             arguments = Bundle()
             arguments?.putString(KEY_STRING, login)
-            App.instance.appDependenciesComponent.inject(this)
+
         }
     }
 
     private val controller by lazy { activity as Controller }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.instance.appDependenciesComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

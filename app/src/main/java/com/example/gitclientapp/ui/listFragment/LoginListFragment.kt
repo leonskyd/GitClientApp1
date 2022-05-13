@@ -21,9 +21,7 @@ import javax.inject.Inject
 class LoginListFragment : Fragment() {
 
     companion object {
-        fun newInstance() = LoginListFragment().apply{
-            App.instance.appDependenciesComponent.inject(this)
-        } }
+        fun newInstance() = LoginListFragment() }
 
 
     private var _binding: LoginListFragmentBinding? = null
@@ -33,6 +31,11 @@ class LoginListFragment : Fragment() {
     private val viewModel: LoginListViewModel by lazy {
         val factory = ViewModelFactory(webRepository)
         ViewModelProvider(this, factory).get(LoginListViewModel::class.java)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.instance.appDependenciesComponent.inject(this)
     }
 
 
