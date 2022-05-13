@@ -8,29 +8,43 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.gitclientapp.App
+import com.example.gitclientapp.data.RetrofitRepositoryInterface
 import com.example.gitclientapp.databinding.FragmentUserBinding
 import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
 import io.reactivex.rxjava3.core.Observable
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class UserFragment : Fragment(){
 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
+    @Inject
+    lateinit var webRepository: RetrofitRepositoryInterface
 
-    private val viewModel: UserViewModel by viewModel()
+    private val viewModel: UserViewModel by lazy {
+        val factory = ViewModelFactory(webRepository)
+        ViewModelProvider(this, factory).get(UserViewModel::class.java)
+    }
 
     companion object {
         private const val KEY_STRING = "KEY_STRING"
         fun newInstance(login: String) = UserFragment().apply {
             arguments = Bundle()
             arguments?.putString(KEY_STRING, login)
+
         }
     }
 
     private val controller by lazy { activity as Controller }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.instance.appDependenciesComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -1,6 +1,7 @@
 package com.example.gitclientapp.data
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.gitclientapp.domain.GitRepoEntity
 import com.example.gitclientapp.domain.UserProfile
@@ -31,6 +32,29 @@ class RetrofitRepository(
                 Log.d("ERROR", "Failed")
             }
         })
+    }
+
+    override fun provideUsersFromWeb(
+        sinceNumber:Int,
+        perPageNumber:Int,
+        liveData: MutableLiveData<List<UserProfile>>
+    ) {
+        api.getUsersList(sinceNumber,perPageNumber).enqueue(object: Callback<List<UserProfile>> {
+            override fun onResponse(
+                call: Call<List<UserProfile>>,
+                response: Response<List<UserProfile>>
+            ) {
+                if (response.isSuccessful) {
+                    liveData.postValue(response.body())
+                } else {
+                    Log.d("ERROR", "List is not provided")
+                }
+            }
+            override fun onFailure(call: Call<List<UserProfile>>, t: Throwable) {
+                Log.d("ERROR", "Something wrong with provideUsersFromWeb")
+            }
+
+        } )
     }
 
     override fun provideDetailsFromWeb(

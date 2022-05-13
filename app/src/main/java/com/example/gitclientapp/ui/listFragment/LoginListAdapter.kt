@@ -45,7 +45,6 @@ class LoginListAdapter(
         }
         fun bind(user: UserProfile) {
             binding.loginItemTextView.text = user.login
-            binding.locationItemTextView.text = user.location
         }
     }
 }

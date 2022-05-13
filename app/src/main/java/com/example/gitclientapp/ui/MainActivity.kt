@@ -28,9 +28,11 @@ class MainActivity : AppCompatActivity(), Controller {
     }
 
     override fun backToList() {
+        //supportFragmentManager.popBackStack()
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.container, LoginListFragment.newInstance())
             .commitNow()
+
     }
 }
